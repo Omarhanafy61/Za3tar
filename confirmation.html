@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed - Za3tar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <p>🔥 Your order is on the way</p>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <p>🔥 Free Delivery on Orders Over $50 | Play the Game for Discounts</p>
+</div>
+
+<!-- NAVBAR -->
+<header class="main-header">
+
+  <img src="logo.png" class="logo">
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="#">Drops</a>
+    <a href="vibe.html">Vibe Finder</a>
+    <a href="game.html">Game</a>
+  </nav>
+
+  <div class="cart-icon" onclick="toggleCart()">🛒 
+    <span id="cart-count">0</span>
+  </div>
+
+</header>
+```
+
+
+<!-- CONFIRMATION -->
+<section class="section" style="text-align:center; min-height:100vh; display:flex; flex-direction:column; justify-content:center;">
+
+  <h1 style="font-size:40px;">🔥 Order Confirmed</h1>
+  <p>Your order has been placed successfully.</p>
+
+  <p id="order-id"></p>
+
+  <div style="margin-top:30px;">
+    <a href="shop.html" class="btn">Continue Shopping</a>
+    <a href="index.html" class="btn">Back Home</a>
+  </div>
+
+</section>
+
+<script>
+
+// NAV MENU
+function toggleMenu(){
+  document.getElementById("nav").classList.toggle("active");
+}
+
+// GENERATE FAKE ORDER ID
+let orderId = "ZA-" + Math.floor(Math.random() * 100000);
+
+document.getElementById("order-id").innerText = "Order ID: " + orderId;
+
+</script>
+
+</body>
+</html>
+```

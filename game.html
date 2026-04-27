@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Za3tar Game</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <p>🔥 Free Delivery on Orders Over $50 | Play the Game for Discounts</p>
+</div>
+
+<!-- NAVBAR -->
+<header class="main-header">
+
+  <img src="logo.png" class="logo">
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="#">Drops</a>
+    <a href="vibe.html">Vibe Finder</a>
+    <a href="game.html">Game</a>
+  </nav>
+
+  <div class="cart-icon" onclick="toggleCart()">🛒 
+    <span id="cart-count">0</span>
+  </div>
+
+</header>
+
+
+
+<section class="section">
+
+<h2>Build Your Fit 🔥</h2>
+<p>Pick the best option for each vibe</p>
+
+<div id="game">
+
+  <p id="question"></p>
+
+  <div id="answers"></div>
+
+  <p>Score: <span id="score">0</span></p>
+
+</div>
+
+<h3 id="reward"></h3>
+
+</section>
+
+<script>
+
+// QUESTIONS (FASHION BASED)
+const questions = [
+  {
+    q: "You're going out at night, what do you wear?",
+    a: [
+      {text: "Black hoodie + chains", correct: true},
+      {text: "Bright pajamas", correct: false}
+    ]
+  },
+  {
+    q: "Best streetwear combo?",
+    a: [
+      {text: "Oversized tee + cargo pants", correct: true},
+      {text: "Suit + tie", correct: false}
+    ]
+  },
+  {
+    q: "What color fits Za3tar vibe?",
+    a: [
+      {text: "Black & green", correct: true},
+      {text: "Pink & yellow", correct: false}
+    ]
+  },
+  {
+    q: "What makes an outfit fire?",
+    a: [
+      {text: "Confidence + style", correct: true},
+      {text: "Random clothes", correct: false}
+    ]
+  }
+];
+
+let current = 0;
+let score = 0;
+
+// LOAD QUESTION
+function loadGame(){
+  const q = questions[current];
+  document.getElementById("question").innerText = q.q;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  q.a.forEach(ans => {
+    const btn = document.createElement("button");
+    btn.innerText = ans.text;
+    btn.classList.add("quiz-btn");
+
+    btn.onclick = () => {
+      if(ans.correct){
+        score++;
+        document.getElementById("score").innerText = score;
+      }
+
+      current++;
+
+      if(current < questions.length){
+        loadGame();
+      } else {
+        endGame();
+      }
+    };
+
+    answersDiv.appendChild(btn);
+  });
+}
+
+// END GAME
+function endGame(){
+  document.getElementById("game").style.display = "none";
+
+  let rewardText = "";
+  let code = "";
+
+  if(score === 4){
+    rewardText = "🔥 Perfect Fit! You got 20% OFF";
+    code = "DRIP20";
+  } 
+  else if(score >= 2){
+    rewardText = "🔥 Nice Style! You got 10% OFF";
+    code = "ZA3TAR10";
+  } 
+  else {
+    rewardText = "😅 Your fit needs work... try again!";
+  }
+
+  document.getElementById("reward").innerText = rewardText;
+
+  // SAVE DISCOUNT
+  if(code){
+    localStorage.setItem("discountCode", code);
+  }
+}
+
+// START
+loadGame();
+
+</script>
+
+</body>
+</html>

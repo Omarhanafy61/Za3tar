@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop - Za3tar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+
+
+<!-- NAVBAR -->
+<header class="main-header">
+
+  
+  <img src="logo.jpeg" class="logo">
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="#">Drops</a>
+    <a href="vibe.html">Vibe Finder</a>
+    <a href="game.html">Game</a>
+  </nav>
+
+  <div class="cart-icon" onclick="toggleCart()">🛒 
+    <span id="cart-count">0</span>
+  </div>
+
+</header>
+
+
+
+
+
+<!-- SHOP -->
+<section class="section">
+  <h2 id="category-title">Shop</h2>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('hoodies')">Hoodies</button>
+    <button onclick="filterCategory('tshirts')">T-Shirts</button>
+    <button onclick="filterCategory('denim')">Denim</button>
+    <button onclick="filterCategory('pants')">Pants</button>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="grid" id="product-list">
+
+    <div class="product" data-category="hoodies">
+      <img src="hoddie1.jpeg">
+      <p>Black Hoodie</p>
+      <span>980</span>
+      <button onclick="addToCart('Black Hoodie', 40)">Add to Cart</button>
+    </div>
+    <div class="product" data-category="hoodies">
+      <img src="hoddie1.jpeg">
+      <p>Black Hoodie</p>
+      <span>690</span>
+      <button onclick="addToCart('Black Hoodie', 40)">Add to Cart</button>
+    </div>
+    <div class="product" data-category="hoodies">
+      <img src="hoddie2.jpeg">
+      <p>Black HOddie</p>
+      <span>600</span>
+      <button onclick="addToCart('Green T-Shirt', 20)">Add to Cart</button>
+    </div>
+     <div class="product" data-category="hoodies">
+      <img src="hoddie3.jpeg">
+      <p>Brown</p>
+      <span>600</span>
+      <button onclick="addToCart('Green T-Shirt', 20)">Add to Cart</button>
+    </div>
+     <div class="product" data-category="hoodies">
+      <img src="hoddie4.jpeg">
+      <p>Green Hoodie</p>
+      <span>650</span>
+      <button onclick="addToCart('Green T-Shirt', 20)">Add to Cart</button>
+    </div>
+
+    <div class="product" data-category="denim">
+      <img src="p3.jpg">
+      <p>Denim Jacket</p>
+      <span>$60</span>
+      <button onclick="addToCart('Denim Jacket', 60)">Add to Cart</button>
+    </div>
+
+    <div class="product" data-category="pants">
+      <img src="p4.jpg">
+      <p>Cargo Pants</p>
+      <span>$35</span>
+      <button onclick="addToCart('Cargo Pants', 35)">Add to Cart</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CART PANEL -->
+<div id="cart-panel">
+  <h3>Your Cart</h3>
+  <ul id="cart-items"></ul>
+  <p>Total: $<span id="total">0</span></p>
+
+  <button onclick="goToCheckout()" class="btn">Checkout</button>
+</div>
+
+<script>
+
+// LOAD CART FROM STORAGE
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let total = 0;
+
+// RESTORE TOTAL + UI
+cart.forEach(item => total += item.price);
+updateCart();
+document.getElementById("cart-count").innerText = cart.length;
+
+
+// FILTER CATEGORY
+function filterCategory(cat){
+  const products = document.querySelectorAll('.product');
+
+  products.forEach(p => {
+    if(cat === 'all' || p.dataset.category === cat){
+      p.style.display = 'block';
+    } else {
+      p.style.display = 'none';
+    }
+  });
+}
+
+
+// ADD TO CART
+function addToCart(name, price){
+  cart.push({name, price});
+  total += price;
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  document.getElementById("cart-count").innerText = cart.length;
+
+  updateCart();
+}
+
+
+// UPDATE CART UI
+function updateCart(){
+  const list = document.getElementById("cart-items");
+  list.innerHTML = "";
+
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = item.name + " - $" + item.price;
+    list.appendChild(li);
+  });
+
+  document.getElementById("total").innerText = total;
+}
+
+
+// TOGGLE CART
+function toggleCart(){
+  document.getElementById("cart-panel").classList.toggle("open");
+}
+
+
+// GO TO CHECKOUT
+function goToCheckout(){
+  window.location.href = "checkout.html";
+}
+
+
+// AUTO FILTER FROM HOMEPAGE
+const params = new URLSearchParams(window.location.search);
+const category = params.get("category");
+
+if(category){
+  filterCategory(category);
+  document.getElementById("category-title").innerText = category.toUpperCase();
+}
+
+</script>
+
+</body>
+</html>
